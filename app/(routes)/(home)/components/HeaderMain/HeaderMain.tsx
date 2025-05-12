@@ -59,7 +59,7 @@ const HeaderMain = (props: HeaderMainProps) => {
             </DropdownMenuLabel>
           </DropdownMenuContent>
         </DropdownMenu>
-        <DialogContent className="sm:max-w-[825px]">
+        <DialogContent className="sm:max-w-[825px] w-full h-[90vh] sm:h-auto overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-medium">Nuevo elemento</DialogTitle>
           </DialogHeader>

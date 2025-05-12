@@ -92,7 +92,7 @@ export default function FormAddElement(props: FormAddElementProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="md:grid-cols-2 gap-y-2 gap-x-4 grid"
+        className="grid gap-y-2 md:grid-cols-2 gap-x-4 w-full"
       >
         <FormField
           control={form.control}
