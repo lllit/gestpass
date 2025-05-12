@@ -60,7 +60,7 @@
     "typescript": "^5"
   },
   "engines": {
-    "node": "20.x"
+    "node": "20.19.0"
   },
   "nx": {}
 }
