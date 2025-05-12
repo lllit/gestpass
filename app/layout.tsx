@@ -11,7 +11,7 @@ const poppins = Poppins({
 
 
 export const metadata: Metadata = {
-  title: "Gestorpass",
+  title: "Gestpass",
   description: "App para gestionar contraseñas",
 };
 
