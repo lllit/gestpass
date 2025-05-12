@@ -6,7 +6,6 @@ import { db } from '@/lib/db'
 const handler = NextAuth({
     session: {
         strategy: 'jwt'
-
     },
     pages: {
         signIn: "/login"
@@ -21,7 +20,7 @@ const handler = NextAuth({
             async authorize(credentials) {
 
                 if (!credentials?.email || !credentials?.password) {
-                    throw new Error("Credenciales erroneas")
+                    throw new Error("Faltan datos: email y password son requeridos.")
                 }
 
                 const user = await db?.user.findUnique({
@@ -29,15 +28,19 @@ const handler = NextAuth({
                         email: credentials.email
                     }
                 })
-                if (!user || !user?.hashedPassword) {
-                    throw new Error("Credenciales erroneas")
+                if (!user) {
+                    throw new Error("Usuario no encontrado en la base de datos.");
                 }
+                if (!user.hashedPassword) {
+                    throw new Error("No se encontró contraseña almacenada para este usuario.");
+                }
+
                 const isCorrectPassword = await compare(
                     credentials.password,
                     user.hashedPassword
                 )
                 if (!isCorrectPassword) {
-                    throw new Error("Credenciales erroneas")
+                    throw new Error("La contraseña ingresada es incorrecta.")
                 }
 
 
