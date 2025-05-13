@@ -13,6 +13,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Gestpass",
   description: "App para gestionar contraseñas",
+  manifest:"/manifest.json"
 };
 
 export default function RootLayout({
