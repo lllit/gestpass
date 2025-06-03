@@ -92,7 +92,7 @@ export default function FormAddElement(props: FormAddElementProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grid gap-y-2 md:grid-cols-2 gap-x-4 w-full"
+        className="grid gap-y-2 md:grid-cols-2 md:gap-x-4 md:w-full"
       >
         <FormField
           control={form.control}
@@ -102,8 +102,8 @@ export default function FormAddElement(props: FormAddElementProps) {
               <FormLabel>¿Que tipo de elemento necesitas?</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecciona  un directorio para tu contraseña"></SelectValue>
+                  <SelectTrigger className="text-[11px] md:text-[15px]">
+                    <SelectValue className="" placeholder="Selecciona un directorio para tu contraseña"></SelectValue>
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -126,14 +126,14 @@ export default function FormAddElement(props: FormAddElementProps) {
               <FormLabel>
                 ¿Quieres seleccionar tu contraseña como favorita?
               </FormLabel>
-              <div className="flex flex-row items-start space-x-3 space-y-0 p-4">
+              <div className="flex flex-row items-start space-x-3 space-y-0 pt-2 pb-1">
                 <FormControl>
                   <Checkbox
                     checked={field.value}
                     onCheckedChange={field.onChange}
                   ></Checkbox>
                 </FormControl>
-                <div className="space-y-1 leading-none">
+                <div className="space-y-1 leading-none ">
                   <FormLabel>Marcar como favorito</FormLabel>
                 </div>
               </div>
@@ -256,7 +256,7 @@ export default function FormAddElement(props: FormAddElementProps) {
         <div className="">
           <div className="text-slate-400 flex items-center justify-between text-sm">
             Autenticación TOP
-            <p className="px-3 bg-green-700 text-white rounded-lg text-xs mr-5">
+            <p className="px-3 bg-green-700 text-white rounded-lg text-xs">
               Premium
             </p>
           </div>
