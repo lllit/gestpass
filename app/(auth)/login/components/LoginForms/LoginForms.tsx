@@ -32,20 +32,23 @@ export default function LoginForms() {
   });
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     //console.log(values);
-    const responde = await signIn("credentials", {
-      email: values.email,
-      password: values.password,
-      redirect: false
-    });
-    if(responde?.status === 200){
-      toast(
-        "Login realizado con exito"
-      )
-      router.push("/")
-    }else{
-      toast(
-        "Error al realizar login"
-      )
+    try {
+      const responde = await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+      });
+
+      if (responde?.error) {
+        throw new Error(responde.error); // ✅ Captura el error si el login falla
+      }
+
+      toast.success("Login realizado con éxito 🎉");
+      router.push("/");
+
+    } catch (error) {
+      console.error("Error en el login:", error);
+      toast.error("Error al iniciar sesión");
     }
   };
 

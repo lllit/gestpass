@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { signIn } from "next-auth/react";
 
 const formSchema = z.object({
   email: z.string().min(2).max(50),
@@ -24,7 +25,6 @@ const formSchema = z.object({
 });
 
 export default function RegisterForms() {
-
   const router = useRouter();
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -38,36 +38,55 @@ export default function RegisterForms() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     //console.log(values);
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // ✅ Agrega el header para asegurar que la API reciba JSON
+        },
+        body: JSON.stringify(values),
+      });
 
-    const response = await fetch("/api/auth/register",{
-      method:"POST",
-      body:JSON.stringify({
+      const data = await response.json(); // ✅ Procesa la respuesta correctamente
+
+      if (!response.ok) {
+        // ✅ Comprueba si la solicitud realmente falló
+        throw new Error(data.message || "Error al realizar el registro");
+      }
+
+      toast("Registro Exitoso! 🎉");
+
+
+      // ✅ Inicia sesión automáticamente después del registro
+      const loginResponse = await signIn("credentials", {
         email: values.email,
         password: values.password,
-        username: values.username
-      })
-    })
+        redirect: false,
+      });
 
-    if(response.status === 200){
-      router.push("/")
-      toast(
-        "Registro Exitoso!"
-      )
-    } else{
-      toast(
-        "Error al realizar el registro"
-      )
+      if (loginResponse?.error) {
+        throw new Error("Error al iniciar sesión automáticamente.");
+      }
+
+      toast.success("Inicio de sesión automático exitoso 🎉");
+
+      // ✅ Redirige después de iniciar sesión
+      setTimeout(() => {
+        router.push("/");
+        router.refresh();
+      }, 1500);
+    } catch (error) {
+      console.log("ERROR AL REALIZAR EL REGISTRO", error);
+      toast.error("Ocurrió un error inesperado");
     }
-
-
-
-
-
-  }
+  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full mt-5 space-y-3 text-black">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-full mt-5 space-y-3 text-black"
+      >
         <FormField
           control={form.control}
           name="email"
@@ -107,7 +126,9 @@ export default function RegisterForms() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full cursor-pointer">Enviar</Button>
+        <Button type="submit" className="w-full cursor-pointer">
+          Login
+        </Button>
       </form>
     </Form>
   );
