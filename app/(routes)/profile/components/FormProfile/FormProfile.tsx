@@ -52,111 +52,121 @@ export function FormProfile(props: FormProfileProps) {
     } catch (error) {
       toast("Algo salio mal :'c");
       console.log(error);
-      
     }
   };
   return (
-    <div className="max-w-lg">
+    <div className="w-full">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 py-2">
-          <FormField
-            control={form.control}
-            name="profileImage"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Imagen de perfil</FormLabel>
-                <FormControl>
-                  <div>
-                    <div className="flex gap-2 items-center">
-                      <Image
-                        src={
-                          user.profileImage
-                            ? user.profileImage
-                            : "/images/default-profile.jpg"
-                        }
-                        alt="Image profile"
-                        width={60}
-                        height={60}
-                        className="rounded-full"
-                      ></Image>
-                      <div className="w-[200px] ">
-                        {showUpdaloadPhoto ? (
-                          <UploadButton
-                            className="rounded-md text-slate-800 bg-slate-200 mt-3 "
-                            {...field}
-                            endpoint="profileImage"
-                            onClientUploadComplete={(res) => {
-                              form.setValue("profileImage", res?.[0].url);
-                              setPhotoUploaded(true);
-                            }}
-                            onUploadError={(error: Error) => console.log(error)}
-                          ></UploadButton>
-                        ) : (
-                          <Button
-                            onClick={() =>
-                              setShowUpdaloadPhoto((prev) => !prev)
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 py-2">
+          <div className="gap-x-8">
+            <div className="flex flex-col md:flex-row items-start w-full">
+              <FormField
+                control={form.control}
+                name="profileImage"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Imagen de perfil</FormLabel>
+                    <FormControl>
+                      <div>
+                        <div className="flex gap-0 items-end ">
+                          <Image
+                            src={
+                              user.profileImage
+                                ? user.profileImage
+                                : "/images/default-profile.jpg"
                             }
-                            className="cursor-pointer"
-                          >
-                            <Upload className="mr-2 w-4 h-4"></Upload>Cambiar
-                            foto
-                          </Button>
-                        )}
+                            alt="Image profile"
+                            width={200}
+                            height={200}
+                            className="rounded-full"
+                          ></Image>
+                          <div className="w-[100px] relative right-17">
+                            {showUpdaloadPhoto ? (
+                              <UploadButton
+                                className="rounded-md text-slate-800 bg-slate-400 mt-3 w-[100px] h-[50px] border border-amber-50"
+                                {...field}
+                                endpoint="profileImage"
+                                onClientUploadComplete={(res) => {
+                                  form.setValue("profileImage", res?.[0].url);
+                                  setPhotoUploaded(true);
+                                }}
+                                onUploadError={(error: Error) =>
+                                  console.log(error)
+                                }
+                              ></UploadButton>
+                            ) : (
+                              <Button
+                                onClick={() =>
+                                  setShowUpdaloadPhoto((prev) => !prev)
+                                }
+                                className="cursor-pointer mr-auto bg-[#333638] text-[#c6cdd1] font-normal border border-[#c6cdd1] text-[12px]"
+                              >
+                                <Upload className="mr-0 w-1 h-1"></Upload>Editar
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                        {photoUploaded ? (
+                          <p className="text-sm pt-2">
+                            Imagen subida con éxito
+                          </p>
+                        ) : null}
                       </div>
-                    </div>
-                    {photoUploaded ? (
-                      <p className="text-sm pt-2">Imagen subida con éxito</p>
-                    ) : null}
-                  </div>
-                </FormControl>
+                    </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input disabled {...field} />
-                </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex w-full md:ml-10">
+                <div className="w-full">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem className="mt-4 ">
+                        <FormLabel>Email</FormLabel>
+                        <FormControl className="">
+                          <Input disabled {...field} className="bg-[#c7bcbc7c]" />
+                        </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nombre</FormLabel>
-                <FormControl>
-                  <Input placeholder="Orwell" {...field} />
-                </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem className="mt-4">
+                        <FormLabel>Nombre</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Orwell" {...field} />
+                        </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Usuario</FormLabel>
-                <FormControl>
-                  <Input placeholder="@sait" {...field} />
-                </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="username"
+                    render={({ field }) => (
+                      <FormItem className="mt-4">
+                        <FormLabel>Usuario</FormLabel>
+                        <FormControl>
+                          <Input placeholder="@sait" {...field} />
+                        </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">Guardar</Button>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit" className="mt-4">Guardar</Button>
+                </div>
+              </div>
+            </div>
+          </div>
         </form>
       </Form>
     </div>

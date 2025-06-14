@@ -19,7 +19,8 @@ export default async function Profile() {
 
   return (
     <div>
-      <h1 className="text-xl">Detalles de cuenta</h1>
+      <h1 className="text-xl">Perfil</h1>
+      <hr />
       <FormProfile user={userDb}></FormProfile>
     </div>
   );
